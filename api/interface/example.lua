@@ -1,5 +1,5 @@
 -- *********************************************************************************************************
--- auth: zhouchangyue
+-- author: zhouchangyue
 -- QQ:   23199412
 -- 文件实现了 Restful风格API的参数检查(检查参数的必填属性和参数数据类型)
 -- 该文件无需落地日志,错误信息直接返回给浏览器,方便定位
@@ -28,6 +28,8 @@
 -- check_${OP}_params(tbl) 函数返回值:
 -- result: bool 表示函数校验成功或者失败
 -- errmsg: string 表示函数失败的原因,函数校验成功时无需返回该值
+
+-- RESTFUL API定义格式见 https://github.com/changyuezhou/api_base/blob/master/doc/example.md
 -- *********************************************************************************************************
 
 -- #########################################################################################################
@@ -94,6 +96,15 @@ end
 -- errmsg: string 表示函数失败的原因,函数校验成功时无需返回该值
 -- #########################################################################################################
 function check_add_params(tbl)
+    if nil == tbl then
+        return false, "POST数据格式错误"
+    end
+
+    if (nil == tbl["name"]) or
+            ("string" ~= type(tbl["name"])) then
+        return false, "请检查参数name.为必填且必须为字符型"
+    end
+
     return true
 end
 
@@ -107,6 +118,20 @@ end
 -- errmsg: string 表示函数失败的原因,函数校验成功时无需返回该值
 -- #########################################################################################################
 function check_update_params(tbl)
+    if nil == tbl then
+        return false, "POST数据格式错误"
+    end
+
+    if (nil == tbl["id"]) or
+            ("string" ~= type(tbl["id"])) then
+        return false, "请检查参数id.为必填且必须为字符型"
+    end
+
+    if (nil == tbl["name"]) or
+            ("string" ~= type(tbl["name"])) then
+        return false, "请检查参数name.为必填且必须为字符型"
+    end
+
     return true
 end
 
@@ -120,6 +145,15 @@ end
 -- errmsg: string 表示函数失败的原因,函数校验成功时无需返回该值
 -- #########################################################################################################
 function check_query_params(tbl)
+    if nil == tbl then
+        return false, "POST数据格式错误"
+    end
+
+    if (nil == tbl["id"]) or
+            ("string" ~= type(tbl["id"])) then
+        return false, "请检查参数id.为必填且必须为字符型"
+    end
+
     return true
 end
 
@@ -133,6 +167,15 @@ end
 -- errmsg: string 表示函数失败的原因,函数校验成功时无需返回该值
 -- #########################################################################################################
 function check_delete_params(tbl)
+    if nil == tbl then
+        return false, "POST数据格式错误"
+    end
+
+    if (nil == tbl["id"]) or
+            ("table" ~= type(tbl["id"])) then
+        return false, "请检查参数id.为必填且必须为字符数组"
+    end
+
     return true
 end
 
@@ -146,7 +189,13 @@ end
 -- errmsg: string 表示函数失败的原因,函数校验成功时无需返回该值
 -- #########################################################################################################
 function check_query_list_params(tbl)
-    return true
+    if nil == tbl then
+        return false, "POST数据格式错误"
+    end
+
+    local ret = check_pages_params(tbl)
+
+    return ret
 end
 
 -- #########################################################################################################
@@ -241,7 +290,11 @@ function get_request_op()
     return op
 end
 
+-----------------------------------------------------------------------------------------------------------
+
 local response = {}
+response.code = 0
+response.msg = ""
 local cjson = require "cjson"
 local ERR = reuqire "err"
 
@@ -277,26 +330,65 @@ end
 
 -- 获取接口并处理
 local OP = get_request_op()
-local response = {}
 if OP == "add" then
     if check_add_params(tbl) then
+        local business = require ""
+        local result, id = business:do_action(tbl)
+        if false == result then
+            response.code = result
+            response.msg = id
+        else
+            response.data = {}
+            response.data.name = tbl.name
+            response.data.id = id
+        end
     end
 elseif OP == "update" then
     if check_update_params(tbl) then
+        local business = require ""
+        local result,errmsg = business:do_action(tbl)
+        if false == result then
+            response.code = result
+            response.msg = errmsg
+        end
     end
 elseif OP == "query" then
     if check_query_params(tbl) then
+        local business = require ""
+        local result,info,errmsg = business:do_action(tbl)
+        if false == result then
+            response.code = result
+            response.msg = errmsg
+        else
+            response.data = {}
+            response.data.name = info.name
+            response.data.id = info.id
+        end
     end
 elseif OP == "delete" then
     if check_delete_params(tbl) then
+        local business = require ""
+        local result,errmsg = business:do_action(tbl)
+        if false == result then
+            response.code = result
+            response.msg = errmsg
+        end
     end
 elseif OP == "query_list" then
     if check_query_list_params(tbl) then
+        local business = require ""
+        local result,lists,errmsg = business:do_action(tbl)
+        response.data = {}
+        if false == result then
+            response.code = result
+            response.msg = errmsg
+        else
+            response.data = lists
+        end
     end
 
     cjson.encode_empty_table_as_object(false)
 else
-    local ERR = require "err"
     response.code = ERR.USERINPUTFORMAT
     response.msg = "无效的请求命令:" .. OP
 end

@@ -1,15 +1,7 @@
 -- *********************************************************************************************************
 -- author: zhouchangyue
 -- QQ:   23199412
--- 配置文件定义
--- DBService 配置Database Proxy Service地址
+-- 文件实现了业务数据的逻辑检查,并调用数据库访问接口,将记录数据持久化到数据库
+-- 函数命名必须为小写字母加下划线区分功能单词 例:do_action
 -- *********************************************************************************************************
 
-local Configure = {}
-
-Configure.DBCService = {}
-Configure.DBCService.IP = "127.0.0.1"
-Configure.DBCService.PORT = "10088"
-Configure.DBCService.DB = ""
-
-return Configure

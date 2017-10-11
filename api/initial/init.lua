@@ -1,5 +1,5 @@
 -- *********************************************************************************************************
--- auth: zhouchangyue
+-- author: zhouchangyue
 -- QQ:   23199412
 -- Nginx 启动时加载该文件
 -- nginx.conf 配置文件HTTP SERVICE中增加一条语句: init_by_lua_file ${HOME_DIR}/initial/init.lua;
