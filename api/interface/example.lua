@@ -348,7 +348,7 @@ elseif OP == "update" then
         local business = require ""
         local result,errmsg = business:do_action(tbl)
         if false == result then
-            response.code = result
+            response.code = ERR.USERINPUTLOGICAL
             response.msg = errmsg
         end
     end
@@ -357,7 +357,7 @@ elseif OP == "query" then
         local business = require ""
         local result,info,errmsg = business:do_action(tbl)
         if false == result then
-            response.code = result
+            response.code = ERR.USERINPUTLOGICAL
             response.msg = errmsg
         else
             response.data = {}
@@ -370,7 +370,7 @@ elseif OP == "delete" then
         local business = require ""
         local result,errmsg = business:do_action(tbl)
         if false == result then
-            response.code = result
+            response.code = ERR.USERINPUTLOGICAL
             response.msg = errmsg
         end
     end
@@ -380,7 +380,7 @@ elseif OP == "query_list" then
         local result,lists,errmsg = business:do_action(tbl)
         response.data = {}
         if false == result then
-            response.code = result
+            response.code = ERR.USERINPUTLOGICAL
             response.msg = errmsg
         else
             response.data = lists

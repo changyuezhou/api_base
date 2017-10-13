@@ -62,4 +62,10 @@ function U.is_empty_table(tbl)
     return _G.next(tbl) == nil
 end
 
+function U.table_length(T)
+    local count = 0
+    for _ in pairs(T) do count = count + 1 end
+    return count
+end
+
 return U
