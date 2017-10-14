@@ -15,12 +15,13 @@
 -- DOMAIN 服务器部署的域名
 -- OP的值取决于代码中的实现
 
--- 基本的OP包括 add,update,query,delete,query_list
+-- 基本的OP包括 add,update,query,delete,query_list,stat_by_date
 -- add:        实现数据记录添加操作
 -- update:     实现数据记录修改操作
 -- query:      实现数据记录查询操作
 -- delete:     实现数据记录删除操作
 -- query_list: 实现数据记录列表查询操作
+-- stat_by_date: 实现按日期统计记录数
 -- 扩展的OP包括各种统计查询的接口 例如 member_stat, fans_stat等自定义的值
 
 -- 针对以上OP的值必须添加参数校验函数,函数名称格式 check_${OP}_params(tbl)
@@ -355,7 +356,7 @@ elseif OP == "update" then
 elseif OP == "query" then
     if check_query_params(tbl) then
         local business = require ""
-        local result,info,errmsg = business:do_action(tbl)
+        local result,info,errmsg = business:do_action(tbl.id)
         if false == result then
             response.code = ERR.USERINPUTLOGICAL
             response.msg = errmsg
@@ -368,7 +369,7 @@ elseif OP == "query" then
 elseif OP == "delete" then
     if check_delete_params(tbl) then
         local business = require ""
-        local result,errmsg = business:do_action(tbl)
+        local result,errmsg = business:do_action(tbl.id)
         if false == result then
             response.code = ERR.USERINPUTLOGICAL
             response.msg = errmsg

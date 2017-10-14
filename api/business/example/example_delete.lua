@@ -41,17 +41,17 @@ end
 -- 函数名: do_action
 -- 函数功能: 删除多条记录
 -- 参数定义:
--- tbl: table对象 记录值,key-value形式对
+-- ids: 删除对象ID List
 -- 返回值:
 -- result: bool 函数成功或者失败
 -- errmsg: 失败是,返回失败描述信息
 -- #########################################################################################################
-function business:do_action(tbl)
+function business:do_action(ids)
     -- 数组转换字符串
-    local ids = business:array_to_string(tbl.id)
+    local ids_list = business:array_to_string(ids)
 
     -- 删除记录
-    local sql = "delete from t_example where id in (" .. ids .. ")"
+    local sql = "delete from t_example where id in (" .. ids_list .. ")"
     local configure = require "configure"
     local dao = require "dao"
     local LOG = require "LOG"

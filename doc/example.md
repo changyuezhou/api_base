@@ -10,6 +10,7 @@
 ### [5.3 会员删除](#member_delete)
 ### [5.4 会员查询](#member_query)
 ### [5.5 会员列表](#member_query_list)
+### [5.6 按日期统计会员](#member_stat_by_date)
 ## [6 状态码](#status_code)
 -------------------
 ## 1. 关于文档 <a name="about_doc"/>
@@ -229,6 +230,17 @@
 		}
 	]
    }
+   
+### 5.6 按日期统计会员 stat_by_date <a name="member_stat_by_date"/>
+* 请求URL:http://${DOMAIN}/interface/example/stat_by_date
+* 请求字段:
+
+| 名称  | 类型 | 必填 | 描述 |
+| :--------| ----:| ----:| :--- |
+| begin_time |  int  | 是 | 开始时间 |
+| end_time |  int  | 否 | 结束时间 |
+| page_number | int  | 是 |  页码  |
+| page_size | int  | 是 |  每页记录条数 |   
    
 ## 6.状态码 <a name="status_code"/> 
 

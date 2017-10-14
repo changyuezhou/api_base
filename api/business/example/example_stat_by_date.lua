@@ -1,7 +1,7 @@
 -- *********************************************************************************************************
 -- author: zhouchangyue
 -- QQ:   23199412
--- 文件实现了业务数据的逻辑检查,并调用数据库访问接口,将记录数据持久化到数据库
+-- 文件实现了业务数据的查询,按日期统计记录数
 -- 函数命名必须为小写字母加下划线区分功能单词 例:do_action
 
 -- 表t_example结构
@@ -17,22 +17,23 @@
 local business = {}
 
 -- #########################################################################################################
--- 函数名: make_conditions
--- 函数功能: 封装条件对象
+-- 函数名: make_pages
+-- 函数功能: 封装分页对象
 -- 参数定义:
--- id: 对象ID
+-- tbl: table对象 记录值,key-value形式对
 -- 返回值:
--- conditions
+-- pages: 分页对象,包含分页码和页大小
 -- #########################################################################################################
-function business:make_conditions(id)
-    local conditions = { item = {}, op = {} }
-    conditions.item.id = id
-    return conditions
+function business:make_pages(tbl)
+    local pages = {}
+    pages.page_number = tbl.page_number
+    pages.page_size = tbl.page_size
+    return pages
 end
 
 -- #########################################################################################################
 -- 函数名: do_action
--- 函数功能: 查询单条记录
+-- 函数功能: 按日期统计记录信息
 -- 参数定义:
 -- tbl: table对象 记录值,key-value形式对
 -- 返回值:
@@ -40,31 +41,30 @@ end
 -- errmsg: 失败是,返回失败描述信息
 -- info: 成功时返回,对象信息
 -- #########################################################################################################
-function business:do_action(id)
-    -- 封装条件
-    local conditions = business:make_conditions(id)
+function business:do_action(tbl)
+    -- 生成查询使用的SQL语句
 
-    -- 查询记录
-    local columns = { "id", "name", "create_time", "update_time" }
+    local sql = "select count(*) as num,from_unixtime(create_time, '%Y-%m-%d') as register_date from t_example where create_time >=" .. tostring(tbl.begin_time) ..
+            " and create_time <=" .. tostring(tbl.end_time) .. " group by register_date"
+    local pages = business:make_pages(tbl)
 
-    local configure = require "configure"
     local dao = require "dao"
-    local table_name = configure.DBCService.DB .. ".t_example"
+    local configure = require "configure"
     local LOG = require "LOG"
-    local cjson = reuqire "cjson"
-    LOG:DEBUG("query table:" .. table_name .. " id:" .. id)
-    local result,info = dao:query(configure.DBCService, table_name, columns, conditions)
+    LOG:DEBUG("query sql:" .. sql)
+    local result,info = dao:query_by_sql(configure.DBCService, sql, pages)
     if false == result then
-        LOG:ERROR("query table:" .. table_name .. " id:" .. id .. " failed msg:" .. info)
+        if nil ~= info then
+            LOG:ERROR("query sql:" .. sql .. " failed msg:" .. info)
+        else
+            LOG:ERROR("query sql:" .. sql .. " failed")
+        end
         return false,info
     end
+    local cjson = reuqire "cjson"
+    LOG:DEBUG("query sql:" .. sql .. " success response:" .. cjson(info))
 
-    LOG:DEBUG("query table:" .. table_name .. " id:" .. id .. " response:" .. cjson.encode(info))
-    if nil == info or nil == info.data or 0 >= #info.data then
-        return false, "数据库无记录"
-    end
-
-    return true, info.data[1]
+    return true, info
 end
 
 return business
