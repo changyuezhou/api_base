@@ -7,6 +7,7 @@
 ## [5 api/interface目录](#interface)
 ## [6 api/business目录](#business)
 ## [7 api/lib目录](#lib)
+## [8 安装](#install)
 
 -------------------
 ## 1. 关于项目 <a name="about_doc"/>
@@ -28,7 +29,7 @@
    目录下包含了所有业务逻辑代码，目录下按领域业务分包，比如example为单独的包，该包中
    包含业务添加，删除，修改，查询，逻辑检查，列表查询，日期统计等   
    
-## 4. api/lib目录 <a name="lib"/>
+## 7. api/lib目录 <a name="lib"/>
    目录下包含了项目所需要的库文件
 *  api/lib/cachelib 该目录下包含访问database proxy代码
 *  api/lib/commlib 该目录下包含了通用的代码库，比如socket收发数据
@@ -37,3 +38,7 @@
 *  api/lib/reslib 该目录下包含了访问database proxy代码所需要的元代码
 *  api/lib/syslib 该目录UUID，MD5，COOKIE相关的库，也包括了Protobuf代码库    
         
+## 8. 安装和启动 <a name="install"/>    
+*  git clone https://github.com/changyuezhou/api_base.git
+*  sudo ln -s ${PWD}/api_base /usr/local/nginx/example
+*  sudo /usr/local/nginx/sbin/nginx -c ${PWD}/api_base/nginx/example.conf     

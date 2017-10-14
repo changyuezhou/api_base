@@ -8,8 +8,8 @@
 local Configure = {}
 
 Configure.DBCService = {}
-Configure.DBCService.IP = "127.0.0.1"
+Configure.DBCService.IP = "114.215.175.163"
 Configure.DBCService.PORT = "10088"
-Configure.DBCService.DB = ""
+Configure.DBCService.DB = "db_example"
 
 return Configure
