@@ -38,7 +38,8 @@
 *  api/lib/reslib 该目录下包含了访问database proxy代码所需要的元代码
 *  api/lib/syslib 该目录UUID，MD5，COOKIE相关的库，也包括了Protobuf代码库    
         
-## 8. 安装和启动 <a name="install"/>    
+## 8. 安装和启动 <a name="install"/>   
+*  依赖 https://github.com/keplerproject/luafilesystem 包
 *  git clone https://github.com/changyuezhou/api_base.git
 *  sudo ln -s ${PWD}/api_base /usr/local/nginx/example
 *  sudo /usr/local/nginx/sbin/nginx -c ${PWD}/api_base/nginx/example.conf     
