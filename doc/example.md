@@ -59,14 +59,14 @@
 | :--------| ----:| ----:| :--- |
 | code |  int  | 是 | 状态码 |
 | msg |  string  | 否 | 失败时的提示信息 |
-| data |  json object  | 是 | 会员对象 |
+| data |  json object  | 是 | 对象 |
 
 * 应答data字段
 
 | 名称  | 类型 | 必填 | 描述 |
 | :--------| ----:| ----:| :--- |
-| id |  string  | 是 | 会员id |
-| name |  string  | 是 | 会员名称 |
+| id |  string  | 是 | id |
+| name |  string  | 是 | 名称 |
 
 * 请求示例
    >{
@@ -89,8 +89,8 @@
 
 | 名称  | 类型 | 必填 | 描述 |
 | :--------| ----:| ----:| :--- |
-| id |  string  | 是 | 会员id |
-| name | string | 是 | 会员名称 |
+| id |  string  | 是 | id |
+| name | string | 是 | 名称 |
 
 * 应答字段
 
@@ -118,7 +118,7 @@
 
 | 名称  | 类型 | 必填 | 描述 |
 | :--------| ----:| ----:| :--- |
-| id |  array  | 是 | 会员id数组 |
+| id |  array  | 是 | id数组 |
 
 * 应答字段
 
@@ -153,14 +153,14 @@
 | :--------| ----:| ----:| :--- |
 | code |  int  | 是 | 状态码 |
 | msg |  string  | 否 | 失败时的提示信息 |
-| data |  json object  | 是 | 会员对象 |
+| data |  json object  | 是 | 对象 |
 
 * 应答data字段
 
 | 名称  | 类型 | 必填 | 描述 |
 | :--------| ----:| ----:| :--- |
-| id |  string  | 是 | 会员id |
-| name |  string  | 是 | 会员名称 |
+| id |  string  | 是 | id |
+| name |  string  | 是 | 名称 |
 
 * 请求示例
    >{
@@ -182,8 +182,8 @@
 
 | 名称  | 类型 | 必填 | 描述 |
 | :--------| ----:| ----:| :--- |
-| id |  string  | 否 | 会员id |
-| name |  string  | 否 | 会员名称(支持模糊查询) |
+| id |  string  | 否 | id |
+| name |  string  | 否 | 名称(支持模糊查询) |
 | page_number | int  | 是 |  页码  |
 | page_size | int  | 是 |  每页记录条数 |
 
@@ -196,14 +196,14 @@
 | page_number | int  | 页码  |
 | page_size | int  | 每页记录条数 |
 | total_number |  int | 总记录条数  |
-| data |  json array  | 是 | 会员对象数组 |
+| data |  json array  | 是 | 对象数组 |
 
 * 应答data数组单个元素字段
 
 | 名称  | 类型 | 必填 | 描述 |
 | :--------| ----:| ----:| :--- |
-| id |  string  | 是 | 会员id |
-| name |  string  | 是 | 会员名称 |
+| id |  string  | 是 | id |
+| name |  string  | 是 | 名称 |
 
 * 请求示例
    >{
@@ -238,9 +238,50 @@
 | 名称  | 类型 | 必填 | 描述 |
 | :--------| ----:| ----:| :--- |
 | begin_time |  int  | 是 | 开始时间 |
-| end_time |  int  | 否 | 结束时间 |
+| end_time |  int  | 是 | 结束时间 |
 | page_number | int  | 是 |  页码  |
 | page_size | int  | 是 |  每页记录条数 |   
+   
+* 应答字段
+
+| 名称  | 类型 | 必填 | 描述 |
+| :--------| ----:| ----:| :--- |
+| code |  int  | 是 | 状态码 |
+| msg |  string  | 否 | 失败时的提示信息 |
+| page_number | int  | 页码  |
+| page_size | int  | 每页记录条数 |
+| total_number |  int | 总记录条数  |
+| data |  json array  | 是 | 对象数组 |
+
+* 应答data数组单个元素字段
+
+| 名称  | 类型 | 必填 | 描述 |
+| :--------| ----:| ----:| :--- |
+| num |  int  | 是 | 记录数量 |
+| register_date |  string  | 是 | 注册日期 |
+   
+* 请求示例
+   >{
+	   "begin_time": 0,
+	   "end_time": 16000000000,
+	   "page_size": 10,
+	   "page_number": 1
+    }
+    
+* 应答示例
+  >{
+      "page_size": 10,
+      "msg": "",
+      "code": 0,
+      "total_number": 1,
+      "data": [
+        {
+            "num": 2,
+            "register_date": "2017-10-15"
+        }
+      ],
+      "page_number": 1
+    } 
    
 ## 6.状态码 <a name="status_code"/> 
 
