@@ -5,10 +5,10 @@
 -- 函数命名必须为小写字母加下划线区分功能单词 例: encode_request_header
 -- *********************************************************************************************************
 
-local util = require "util"
 local sql_pb = require "sql_pb"
 local db_manager = require "db_manager"
 local CacheManager = {}
+local util = require "util"
 
 CacheManager.pb_version = ""
 CacheManager.pb_seq = ""
@@ -21,8 +21,7 @@ end
 function CacheManager:send_to_service(ip, port, request_pb)
     CacheManager:encode_request_header(request_pb, CacheManager.pb_version, CacheManager.pb_seq)
     local data = request_pb:SerializeToString()
-    local result,recieve_data = util.send_data_use_socket_sync(ip, port, data, 3)
-
+    local result,recieve_data = util:send_data_use_socket_sync(ip, port, data, 3)
     return result, recieve_data
 end
 
@@ -94,15 +93,15 @@ function CacheManager:update(db_conf, tbl_name, columns, conditions)
 end
 
 function CacheManager:query(db_conf,tbl_name,columns,conditions,pages,orders,groups,havings)
-  local sql_pb_request = sql_pb.Request()
-  db_manager:sql_tbl_to_pb_query(sql_pb_request.sql, tbl_name, columns, conditions, pages,orders, groups, havings)
-  local result, data = CacheManager:send_to_service(db_conf.IP, db_conf.PORT, sql_pb_request)
-  if false == result then
-      return result, data
-  end
-  local result, records = CacheManager:decode_pb_response(data)
+    local sql_pb_request = sql_pb.Request()
+    db_manager:sql_tbl_to_pb_query(sql_pb_request.sql, tbl_name, columns, conditions, pages,orders, groups, havings)
+    local result, data = CacheManager:send_to_service(db_conf.IP, db_conf.PORT, sql_pb_request)
+    if false == result then
+        return result, data
+    end
+    local result, records = CacheManager:decode_pb_response(data)
 
-  return result, records
+    return result, records
 end
 
 function CacheManager:delete(db_conf, tbl_name, conditions)

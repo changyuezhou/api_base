@@ -36,7 +36,7 @@ function JsonPB:copy_table(ori_tab, new_tab)
           JsonPB:copy_repeated_array(v, new_tab[k])
         else
 		  local success, f = pcall(new_tab.HasField,new_tab,tostring(k))
-		  if (not success) then
+		  if success then
             new_tab[k] = v
 		  end
 		end

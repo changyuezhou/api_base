@@ -26,14 +26,14 @@ local business = {}
 -- #########################################################################################################
 function business:name_is_exists(name)
     local sql = "select id from t_example where name='" .. name .. "'"
-    local dao = reuqire "dao"
+    local dao = require "dao"
     local configure = require "configure"
     local result,info = dao:query_by_sql(configure.DBCService, sql)
     if false == result then
         return false, info
     end
 
-    if nil == info or nil == info.data or nil == info.data.id then
+    if nil == info or nil == info.data or 0 >= #info.data then
         return false
     end
 

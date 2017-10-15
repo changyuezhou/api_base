@@ -38,6 +38,7 @@ function db_manager:build_query(tbl_name, column_tbl, cond_tbl, order_tbl, group
   if ( nil ~= column_tbl) then
     db_manager.db:add_column_list(column_tbl)
   end
+
   if ( nil ~= cond_tbl ) then
     db_manager.db:add_condition(cond_tbl)
   end

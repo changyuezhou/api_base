@@ -39,9 +39,8 @@ end
 -- conditions
 -- #########################################################################################################
 function business:make_conditions(tbl)
-    local conditions = { item = {}, op = {} }
-    conditions.item.id = tbl.id
-    tbl.id = nil
+    local conditions = { item_tbl = {}, op_tbl = {} }
+    conditions.item_tbl.id = tbl.id
     return conditions
 end
 
@@ -71,13 +70,14 @@ function business:do_action(tbl)
     -- 添加时间戳
     business:add_timestamp(tbl)
     local conditions = business:make_conditions(tbl)
+    tbl.id = nil
 
     -- 修改记录
     local configure = require "configure"
     local dao = require "dao"
     local table_name = configure.DBCService.DB .. ".t_example"
     local LOG = require "LOG"
-    local cjson = reuqire "cjson"
+    local cjson = require "cjson"
     LOG:DEBUG("update table:" .. table_name .. " value:" .. cjson.encode(tbl))
     local result,errmsg = dao:update(configure.DBCService, table_name, tbl, conditions)
     if false == result then

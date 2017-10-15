@@ -19,7 +19,7 @@ function dao:update(db_proxy, table, columns, conditions)
 end
 
 function dao:query(db_proxy, table, columns, conditions, pages, orders, groups, havings)
-    local result,data,errmsg = cache_manager:queryTbl(db_proxy, table, columns,
+    local result,data,errmsg = cache_manager:query(db_proxy, table, columns,
         conditions, pages, orders, groups, havings)
     return result,data,errmsg
 end

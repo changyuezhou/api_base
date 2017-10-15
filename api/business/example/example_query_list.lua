@@ -17,6 +17,29 @@
 local business = {}
 
 -- #########################################################################################################
+-- 函数名: results_string_to_number
+-- 函数功能: 记录中字符字段转换为整型字段
+-- 参数定义:
+-- info: 查询对象信息
+-- 返回值:
+-- 无
+-- #########################################################################################################
+function business:results_string_to_number(info)
+    if nil == info or nil == info.data then
+        return
+    end
+    local num = #info.data
+    for i = 1, num do
+        if ( nil ~= info.data[i].create_time) then
+            info.data[i]["create_time"] = tonumber(info.data[i].create_time)
+        end
+        if ( nil ~= info.data[i].update_time) then
+            info.data[i]["update_time"] = tonumber(info.data[i].update_time)
+        end
+    end
+end
+
+-- #########################################################################################################
 -- 函数名: make_conditions
 -- 函数功能: 封装条件对象
 -- 参数定义:
@@ -25,25 +48,25 @@ local business = {}
 -- conditions
 -- #########################################################################################################
 function business:make_conditions(tbl)
-    local conditions = { item = {}, op = {} }
+    local conditions = { item_tbl = {}, op_tbl = {} }
     if nil ~= tbl.id then
-        conditions.item.id = tbl.id
+        conditions.item_tbl.id = tbl.id
     end
 
     if nil ~= tbl.name then
-        conditions.item.name = tbl.name .. " LIKE"
+        conditions.item_tbl.name = tbl.name .. " LIKE"
     end
 
     local util = require "util"
-    local num = util.table_length(conditions.item)
+    local num = util:table_length(conditions.item_tbl)
     if 0 >= num then
-        conditions.item = nil
-        conditions.op = nil
+        conditions.item_tbl = nil
+        conditions.op_tbl = nil
         return
     end
 
     for i = 1, (num - 1) do
-        conditions.op[i] = 1
+        conditions.op_tbl[i] = 1
     end
 
     return conditions
@@ -101,7 +124,7 @@ function business:do_action(tbl)
     local dao = require "dao"
     local table_name = configure.DBCService.DB .. ".t_example"
     local LOG = require "LOG"
-    local cjson = reuqire "cjson"
+    local cjson = require "cjson"
     LOG:DEBUG("query table:" .. table_name .. " value:" .. cjson.encode(tbl))
     local result,info = dao:query(configure.DBCService, table_name, columns, conditions, pages, order)
     if false == result then
@@ -114,7 +137,9 @@ function business:do_action(tbl)
         return false, "数据库无记录"
     end
 
-    return true, info
+    business:results_string_to_number(info)
+
+    return true, info.data, info.total_number
 end
 
 return business

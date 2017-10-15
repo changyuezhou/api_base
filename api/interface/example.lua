@@ -194,9 +194,33 @@ function check_query_list_params(tbl)
         return false, "POST数据格式错误"
     end
 
-    local ret = check_pages_params(tbl)
+    local ret,errmsg = check_pages_params(tbl)
 
-    return ret
+    return ret,errmsg
+end
+
+-- #########################################################################################################
+-- 函数名: check_stat_by_date_params
+-- 函数功能: 校验接口 stat_by_date 的参数
+-- 参数定义:
+-- tbl: POST请求过来的JSON数据,已经用cjson库转换成LUA TABLE
+-- 返回值:
+-- result: bool 表示函数成功或者失败
+-- errmsg: string 表示函数失败的原因,函数校验成功时无需返回该值
+-- #########################################################################################################
+function check_stat_by_date_params(tbl)
+    if nil == tbl then
+        return false, "POST数据格式错误"
+    end
+
+    local ret,errmsg = check_pages_params(tbl)
+    if false == ret then
+        return ret, errmsg
+    end
+
+    ret,errmsg = check_query_time_params(tbl)
+
+    return ret,errmsg
 end
 
 -- #########################################################################################################
@@ -209,7 +233,7 @@ end
 -- #########################################################################################################
 function check_http_request_is_post()
     local request_method = ngx.var.request_method
-    if "POST" ~= request_method then
+    if "POST" == request_method then
         return true
     end
 
@@ -226,7 +250,7 @@ end
 -- #########################################################################################################
 function check_http_request_is_get()
     local request_method = ngx.var.request_method
-    if "GET" ~= request_method then
+    if "GET" == request_method then
         return true
     end
 
@@ -297,11 +321,12 @@ local response = {}
 response.code = 0
 response.msg = ""
 local cjson = require "cjson"
-local ERR = reuqire "err"
+local ERR = require "err"
 
 -- ########################################################################################################
 -- 检查段
 -- 检查用户登录态
+--[[
 local user_check_result,user_info,redirect_url = get_user_info()
 if false == user_check_result then
     response.code = 302
@@ -309,7 +334,7 @@ if false == user_check_result then
     ngx.say(cjson.encode(response))
     ngx.exit(ngx.HTTP_OK)
 end
-
+--]]
 -- 检查接口请求是否为POST方式
 if false == check_http_request_is_post() then
     response.code = ERR.USERINPUTFORMAT
@@ -332,63 +357,100 @@ end
 -- 获取接口并处理
 local OP = get_request_op()
 if OP == "add" then
-    if check_add_params(tbl) then
-        local business = require ""
+    local result,errmsg = check_add_params(tbl)
+    if true == result then
+        local business = require "example_add"
         local result, id = business:do_action(tbl)
         if false == result then
-            response.code = result
+            response.code = ERR.USERINPUTLOGICAL
             response.msg = id
         else
             response.data = {}
             response.data.name = tbl.name
             response.data.id = id
         end
+    else
+        response.code = ERR.USERINPUTFORMAT
+        response.msg = errmsg
     end
 elseif OP == "update" then
-    if check_update_params(tbl) then
-        local business = require ""
+    local result,errmsg = check_update_params(tbl)
+    if true == result then
+        local business = require "example_update"
         local result,errmsg = business:do_action(tbl)
         if false == result then
             response.code = ERR.USERINPUTLOGICAL
             response.msg = errmsg
         end
+    else
+        response.code = ERR.USERINPUTFORMAT
+        response.msg = errmsg
     end
 elseif OP == "query" then
-    if check_query_params(tbl) then
-        local business = require ""
-        local result,info,errmsg = business:do_action(tbl.id)
+    local result,errmsg = check_query_params(tbl)
+    if true == result then
+        local business = require "example_query"
+        local result,info = business:do_action(tbl.id)
         if false == result then
             response.code = ERR.USERINPUTLOGICAL
-            response.msg = errmsg
+            response.msg = info
         else
-            response.data = {}
-            response.data.name = info.name
-            response.data.id = info.id
+            response.data = info
         end
+    else
+        response.code = ERR.USERINPUTFORMAT
+        response.msg = errmsg
     end
 elseif OP == "delete" then
-    if check_delete_params(tbl) then
-        local business = require ""
+    local result,errmsg = check_delete_params(tbl)
+    if true == result then
+        local business = require "example_delete"
         local result,errmsg = business:do_action(tbl.id)
         if false == result then
             response.code = ERR.USERINPUTLOGICAL
             response.msg = errmsg
         end
+    else
+        response.code = ERR.USERINPUTFORMAT
+        response.msg = errmsg
     end
 elseif OP == "query_list" then
-    if check_query_list_params(tbl) then
-        local business = require ""
-        local result,lists,errmsg = business:do_action(tbl)
+    local result,errmsg = check_query_list_params(tbl)
+    if true == result then
+        local business = require "example_query_list"
+        local result,lists,total_number = business:do_action(tbl)
+        if false == result then
+            response.code = ERR.USERINPUTLOGICAL
+            response.msg = lists
+        else
+            response.data = lists
+            response.page_size = tbl.page_size
+            response.page_number = tbl.page_number
+            response.total_number = total_number
+        end
+    else
+        response.code = ERR.USERINPUTFORMAT
+        response.msg = errmsg
+    end
+elseif OP == "stat_by_date" then
+    local result,errmsg = check_stat_by_date_params(tbl)
+    if true == result then
+        local business = require "example_stat_by_date"
+        local result,lists,total_number = business:do_action(tbl)
         response.data = {}
         if false == result then
             response.code = ERR.USERINPUTLOGICAL
-            response.msg = errmsg
+            response.msg = lists
         else
             response.data = lists
+            response.page_size = tbl.page_size
+            response.page_number = tbl.page_number
+            response.total_number = total_number
         end
+    else
+        response.code = ERR.USERINPUTFORMAT
+        response.msg = errmsg
     end
-
-    cjson.encode_empty_table_as_object(false)
 else
     response.code = ERR.USERINPUTFORMAT
     response.msg = "无效的请求命令:" .. OP

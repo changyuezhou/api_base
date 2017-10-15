@@ -17,6 +17,29 @@
 local business = {}
 
 -- #########################################################################################################
+-- 函数名: results_string_to_number
+-- 函数功能: 记录中字符字段转换为整型字段
+-- 参数定义:
+-- info: 查询对象信息
+-- 返回值:
+-- 无
+-- #########################################################################################################
+function business:results_string_to_number(info)
+    if nil == info or nil == info.data then
+        return
+    end
+    local num = #info.data
+    for i = 1, num do
+        if ( nil ~= info.data[i].num) then
+            info.data[i]["num"] = tonumber(info.data[i].num)
+        end
+        if ( nil ~= info.data[i].update_time) then
+            info.data[i]["update_time"] = tonumber(info.data[i].update_time)
+        end
+    end
+end
+
+-- #########################################################################################################
 -- 函数名: make_pages
 -- 函数功能: 封装分页对象
 -- 参数定义:
@@ -61,10 +84,12 @@ function business:do_action(tbl)
         end
         return false,info
     end
-    local cjson = reuqire "cjson"
-    LOG:DEBUG("query sql:" .. sql .. " success response:" .. cjson(info))
+    local cjson = require "cjson"
+    LOG:DEBUG("query sql:" .. sql .. " success response:" .. cjson.encode(info))
 
-    return true, info
+    business:results_string_to_number(info)
+
+    return true, info.data, info.total_number
 end
 
 return business
