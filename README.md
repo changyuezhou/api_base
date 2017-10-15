@@ -40,6 +40,9 @@
         
 ## 8. 安装和启动 <a name="install"/>   
 *  依赖 https://github.com/keplerproject/luafilesystem 包
+*  依赖 https://github.com/changyuezhou/project/tree/master/dbc
+*  依赖 md5
+*  依赖 protobuf
 *  git clone https://github.com/changyuezhou/api_base.git
 *  sudo ln -s ${PWD}/api_base /usr/local/nginx/example
 *  sudo /usr/local/nginx/sbin/nginx -c ${PWD}/api_base/nginx/example.conf     
