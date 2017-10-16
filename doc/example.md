@@ -176,6 +176,7 @@
 		"name": "李帅"
 	  }
     }
+    
 ### 5.5 会员列表 query_list <a name="member_query_list"/>
 * 请求URL:http://${DOMAIN}/interface/example/query_list
 * 请求字段:
@@ -193,12 +194,15 @@
 | :--------| ----:| ----:| :--- |
 | code |  int  | 是 | 状态码 |
 | msg |  string  | 否 | 失败时的提示信息 |
+| data |  json object  | 是 | 对象信息 |
+
+* data字段
 | page_number | int  | 页码  |
 | page_size | int  | 每页记录条数 |
 | total_number |  int | 总记录条数  |
-| data |  json array  | 是 | 对象数组 |
+| list |  json array  | 是 | 对象数组 |
 
-* 应答data数组单个元素字段
+* list数组单个元素字段
 
 | 名称  | 类型 | 必填 | 描述 |
 | :--------| ----:| ----:| :--- |
@@ -216,19 +220,20 @@
   >{
 	"msg": "",
 	"code": 0,
-	"page_number": 1,
-	"page_size": 10,
-	"total_number": 2,
-	"data": [
-		{
-		   "id": "1",
-		   "name": "李帅"
-		},
-		{
-		   "id": "2",
-		   "name": "张帅"
-		}
-	]
+	"data": {
+		"page_number": 1,
+	    "page_size": 10,
+	    "total_number": 2,
+	    "list":[
+		   {
+		      "id": "1",
+		      "name": "李帅"
+		   },
+		   {
+		      "id": "2",
+		      "name": "张帅"
+		   }]
+	 }
    }
    
 ### 5.6 按日期统计会员 stat_by_date <a name="member_stat_by_date"/>
@@ -242,18 +247,25 @@
 | page_number | int  | 是 |  页码  |
 | page_size | int  | 是 |  每页记录条数 |   
    
+
 * 应答字段
 
 | 名称  | 类型 | 必填 | 描述 |
 | :--------| ----:| ----:| :--- |
 | code |  int  | 是 | 状态码 |
 | msg |  string  | 否 | 失败时的提示信息 |
+| data |  json object  | 是 | 对象信息 |
+
+* data应答字段
+
+| 名称  | 类型 | 必填 | 描述 |
+| :--------| ----:| ----:| :--- |
 | page_number | int  | 页码  |
 | page_size | int  | 每页记录条数 |
 | total_number |  int | 总记录条数  |
-| data |  json array  | 是 | 对象数组 |
+| list |  json array  | 是 | 对象数组 |
 
-* 应答data数组单个元素字段
+* list数组单个元素字段
 
 | 名称  | 类型 | 必填 | 描述 |
 | :--------| ----:| ----:| :--- |
@@ -270,17 +282,18 @@
     
 * 应答示例
   >{
-      "page_size": 10,
       "msg": "",
       "code": 0,
-      "total_number": 1,
-      "data": [
-        {
-            "num": 2,
-            "register_date": "2017-10-15"
-        }
-      ],
-      "page_number": 1
+      "data": {
+           "total_number": 1,
+           "page_size": 10,
+           "list": [
+             {
+                "num": 2,
+                "register_date": "2017-10-15"
+             }],
+           "page_number": 1
+      }
     } 
    
 ## 6.状态码 <a name="status_code"/> 

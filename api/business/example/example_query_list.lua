@@ -25,16 +25,16 @@ local business = {}
 -- 无
 -- #########################################################################################################
 function business:results_string_to_number(info)
-    if nil == info or nil == info.data then
+    if nil == info or nil == info.list then
         return
     end
-    local num = #info.data
+    local num = #info.list
     for i = 1, num do
-        if ( nil ~= info.data[i].create_time) then
-            info.data[i]["create_time"] = tonumber(info.data[i].create_time)
+        if ( nil ~= info.list[i].create_time) then
+            info.list[i]["create_time"] = tonumber(info.list[i].create_time)
         end
-        if ( nil ~= info.data[i].update_time) then
-            info.data[i]["update_time"] = tonumber(info.data[i].update_time)
+        if ( nil ~= info.list[i].update_time) then
+            info.list[i]["update_time"] = tonumber(info.list[i].update_time)
         end
     end
 end
@@ -133,13 +133,13 @@ function business:do_action(tbl)
     end
 
     LOG:DEBUG("query table:" .. table_name .. " value:" .. cjson.encode(tbl) .. " response:" .. cjson.encode(info))
-    if nil == info or nil == info.data or 0 >= #info.data then
+    if nil == info or nil == info.list or 0 >= #info.list then
         return false, "数据库无记录"
     end
 
     business:results_string_to_number(info)
 
-    return true, info.data, info.total_number
+    return true, info
 end
 
 return business

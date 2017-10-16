@@ -418,15 +418,12 @@ elseif OP == "query_list" then
     local result,errmsg = check_query_list_params(tbl)
     if true == result then
         local business = require "example_query_list"
-        local result,lists,total_number = business:do_action(tbl)
+        local result,info = business:do_action(tbl)
         if false == result then
             response.code = ERR.USERINPUTLOGICAL
-            response.msg = lists
+            response.msg = info
         else
-            response.data = lists
-            response.page_size = tbl.page_size
-            response.page_number = tbl.page_number
-            response.total_number = total_number
+            response.data = info
         end
     else
         response.code = ERR.USERINPUTFORMAT
@@ -436,16 +433,12 @@ elseif OP == "stat_by_date" then
     local result,errmsg = check_stat_by_date_params(tbl)
     if true == result then
         local business = require "example_stat_by_date"
-        local result,lists,total_number = business:do_action(tbl)
-        response.data = {}
+        local result,info = business:do_action(tbl)
         if false == result then
             response.code = ERR.USERINPUTLOGICAL
-            response.msg = lists
+            response.msg = info
         else
-            response.data = lists
-            response.page_size = tbl.page_size
-            response.page_number = tbl.page_number
-            response.total_number = total_number
+            response.data = info
         end
     else
         response.code = ERR.USERINPUTFORMAT

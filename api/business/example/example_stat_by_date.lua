@@ -25,16 +25,16 @@ local business = {}
 -- 无
 -- #########################################################################################################
 function business:results_string_to_number(info)
-    if nil == info or nil == info.data then
+    if nil == info or nil == info.list then
         return
     end
-    local num = #info.data
+    local num = #info.list
     for i = 1, num do
-        if ( nil ~= info.data[i].num) then
-            info.data[i]["num"] = tonumber(info.data[i].num)
+        if ( nil ~= info.list[i].num) then
+            info.list[i]["num"] = tonumber(info.list[i].num)
         end
-        if ( nil ~= info.data[i].update_time) then
-            info.data[i]["update_time"] = tonumber(info.data[i].update_time)
+        if ( nil ~= info.list[i].update_time) then
+            info.list[i]["update_time"] = tonumber(info.list[i].update_time)
         end
     end
 end
@@ -89,7 +89,7 @@ function business:do_action(tbl)
 
     business:results_string_to_number(info)
 
-    return true, info.data, info.total_number
+    return true, info
 end
 
 return business

@@ -46,11 +46,11 @@ function CacheManager:decode_pb_response(data)
 	    TblPB:pb_to_tbl(record, service_response.results)
         if nil ~= record.records and 0 < #record.records then
 	        local web_tbl = {}
-	        response.data = {}
+	        response.list = {}
 	        db_manager:sql_records_to_tbl(record, web_tbl)
 	        local num = #web_tbl.name
 	        for i = 1, num do
-                table.insert(response.data, web_tbl.name[i])
+                table.insert(response.list, web_tbl.name[i])
             end
         end
     end
