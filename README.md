@@ -45,4 +45,4 @@
 *  依赖 protobuf
 *  git clone https://github.com/changyuezhou/api_base.git
 *  sudo ln -s ${PWD}/api_base /usr/local/nginx/example
-*  sudo /usr/local/nginx/sbin/nginx -c ${PWD}/api_base/nginx/example.conf     
+*  sudo /usr/local/nginx/sbin/nginx -c /usr/local/nginx/example/nginx/example.conf     

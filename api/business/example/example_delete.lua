@@ -54,7 +54,7 @@ function business:do_action(ids)
     local sql = "delete from t_example where id in (" .. ids_list .. ")"
     local configure = require "configure"
     local dao = require "dao"
-    local LOG = require "LOG"
+    local LOG = require "log"
     LOG:DEBUG("delete table:t_example" .. " sql:" .. sql)
     local result,errmsg = dao:execute_by_sql(configure.DBCService, sql)
 

@@ -123,7 +123,7 @@ function business:do_action(tbl)
     local configure = require "configure"
     local dao = require "dao"
     local table_name = configure.DBCService.DB .. ".t_example"
-    local LOG = require "LOG"
+    local LOG = require "log"
     local cjson = require "cjson"
     LOG:DEBUG("query table:" .. table_name .. " value:" .. cjson.encode(tbl))
     local result,info = dao:query(configure.DBCService, table_name, columns, conditions, pages, order)

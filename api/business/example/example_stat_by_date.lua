@@ -73,7 +73,7 @@ function business:do_action(tbl)
 
     local dao = require "dao"
     local configure = require "configure"
-    local LOG = require "LOG"
+    local LOG = require "log"
     LOG:DEBUG("query sql:" .. sql)
     local result,info = dao:query_by_sql(configure.DBCService, sql, pages)
     if false == result then

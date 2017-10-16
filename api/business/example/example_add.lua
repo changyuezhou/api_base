@@ -67,7 +67,7 @@ function business:do_action(tbl)
     local table_name = configure.DBCService.DB .. ".t_example"
     local result,errmsg = dao:add(configure.DBCService, table_name, tbl)
 
-    local LOG = require "LOG"
+    local LOG = require "log"
     local cjson = require "cjson"
     LOG:DEBUG("add table:" .. table_name .. " value:" .. cjson.encode(tbl))
     if false == result then
