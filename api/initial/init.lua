@@ -5,7 +5,7 @@
 -- nginx.conf 配置文件HTTP SERVICE中增加一条语句: init_by_lua_file ${HOME_DIR}/initial/init.lua;
 -- 根据部署服务的路径,修改 HOME_DIR
 -- *********************************************************************************************************
-local HOME_DIR = "/usr/local/nginx/example/api/"
+local HOME_DIR = "/usr/local/nginx/example/api"
 local DIR_TABLES = {}
 
 function LoadPath(root)
