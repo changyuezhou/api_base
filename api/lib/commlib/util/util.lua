@@ -19,7 +19,7 @@ end
 function util:send_data_use_socket_sync(ip, port, data, timeout)
     local succ, sock = pcall(socket.connect, ip, port)
     if (not succ) or (nil == sock) then
-        return false
+        return false,("connect to service ip:" .. ip .. " port:" .. tostring(port) .. " failed")
     end
     sock:send(data)
     sock:settimeout(0)
@@ -45,7 +45,7 @@ function util:send_data_use_socket_sync(ip, port, data, timeout)
     sock:close()
 
     if false == has_datas then
-        return false
+        return false, ("service ip:" .. ip .. " port:" .. tostring(port) .. " has no response")
     end
 
     return true, recieve_data
