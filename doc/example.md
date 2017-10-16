@@ -262,7 +262,7 @@
 | :--------| ----:| ----:| :--- |
 | page_number | int  | 是 | 页码  |
 | page_size | int  | 是 | 每页记录条数 |
-| total_number |  int | 总记录条数  |
+| total_number |  int | 是 | 总记录条数  |
 | list |  json array  | 是 | 对象数组 |
 
 * list数组单个元素字段
