@@ -28,7 +28,7 @@ function business:array_to_string(ids)
     local id_list = ""
     local num = #ids
     for i = 1, num do
-        id_list = id_list .. tostring(ids[i])
+        id_list = id_list .. "'" .. tostring(ids[i]) .. "'"
         if i ~= num then
             id_list = id_list .. ","
         end
