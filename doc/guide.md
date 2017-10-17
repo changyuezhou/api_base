@@ -11,7 +11,7 @@
 
 -------------------
 ## 1. 关于文档 <a name="about_doc"/>
-*   本文档作为开发人员入职指南，介绍了工作环境的搭建，基础工作环境的运行，调试，供新员工快读进入工作角色
+*   本文档作为开发人员入职指南，介绍了工作环境的搭建，基础工作环境的运行，调试，供新员工快速进入工作角色
    
 ## 2. 开发环境 <a name="dev_env"/>   
 *   后端开发代码编辑器 Intelij IDE CE 版本
@@ -59,7 +59,7 @@
 *  3  如果是逻辑错误，需要用LOG模块打印日志,将变量和函数返回值打印出来，方便定位问题
 
 ## 7. 常用Linux操作命令 <a name="used_shell"/> 
-*  1  登录服务器: ssh -p ${PORT} ${USER}@${IP} ssh默认端口22，无需输入，用户名和密码需要替换掉即可
+*  1  登录服务器: ssh -p ${PORT} ${USER}@${IP} ssh默认端口22，无需输入，用户名和IP替换掉即可
 *  2  查看LOG文件方式，1） cat ${FILE}，显示全部LOG,tail -n ${NUM} ${FILE} 显示文件末尾n行日志，tailf ${FILE} 显示文件末尾日志，并不断追加新日志
 *  3  cd ${DIR} 切换目录
 *  4  启动 Nginx： /usr/local/nginx/sbin/nginx -c ${CONF},重新加载 Nginx 配置文件:/usr/local/nginx/sbin/nginx -c ${CONF} -s reload
