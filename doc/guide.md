@@ -32,6 +32,7 @@
 *  数据库代理    DBC
 
 ## 4. 学习过程 <a name="study_progress"/>  
+*  工程样例代码： https://github.com/changyuezhou/api_base
 *  变量使用 ${VAR} 这样的样式，需要替换成真实的目录或者值
 *  1 在自己的home目录下 git clone https://github.com/changyuezhou/api_base.git 按照安装指南运行命令.
 *  2 使用命令: sudo ln -s /home/${USER}/api_base /usr/local/nginx/example_${USER}
