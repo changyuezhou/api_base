@@ -37,7 +37,7 @@
 *  变量使用 ${VAR} 这样的样式，需要替换成真实的目录或者值
 *  1 登录开发服务器，使用主管分配给自己的用户名和密码,ssh ${USER}@101.37.253.12,输入密码.
 *  2 在自己的home目录下 git clone https://github.com/changyuezhou/api_base.git 按照安装指南运行命令.
-*  3 切换分支, git checkout feature/${USER},切换好之后，拉取最新代码: git pull 
+*  3 切换分支,cd api_base 进入代码目录 git checkout feature/${USER},切换好之后，拉取最新代码: git pull ,回到上级目录 cd ..;
 *  4 使用命令: sudo ln -s /home/${USER}/api_base /usr/local/nginx/example_${USER}
 *  5 修改 api_base/nginx/example.conf 文件中的端口号，在文件第50行，选择一个未使用的端口号，不然nginx实例启动会失败
 *  6 修改一下 api_base/nginx/example.conf 文件中初始化文件路径, 在第45行 将路径 /usr/local/nginx/example/api/initial/init.lua; 修改为 /usr/local/nginx/example_${USER}/api/initial/init.lua;
