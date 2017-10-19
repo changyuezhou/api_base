@@ -7,7 +7,7 @@
 ## [5 开发流程](#dev_progress)
 ## [6 调试帮助](#debug_progress)
 ## [7 常用Linux操作命令](#used_shell)
-## [8 用户开通](#user_create)
+## [8 需要完成的任务](#do_action)
 
 -------------------
 ## 1. 关于文档 <a name="about_doc"/>
@@ -32,19 +32,22 @@
 *  数据库代理    DBC
 
 ## 4. 学习过程 <a name="study_progress"/>  
+*  向主管领导申请开通开发账号和密码，开启新的工作之旅
 *  工程样例代码： https://github.com/changyuezhou/api_base
 *  变量使用 ${VAR} 这样的样式，需要替换成真实的目录或者值
-*  1 在自己的home目录下 git clone https://github.com/changyuezhou/api_base.git 按照安装指南运行命令.
-*  2 使用命令: sudo ln -s /home/${USER}/api_base /usr/local/nginx/example_${USER}
-*  3 修改 api_base/nginx/example.conf 文件中的端口号，在文件第50行，选择一个未使用的端口号，不然nginx实例启动会失败
-*  4 修改一下 api_base/nginx/example.conf 文件中初始化文件路径, 在第45行 将路径 /usr/local/nginx/example/api/initial/init.lua; 修改为 /usr/local/nginx/example_${USER}/api/initial/init.lua;
-*  5 修改一下 api_base/nginx/example.conf 文件中LOG路径, 在第69行 将路径 /usr/local/nginx/example/logs/example_api_nginx_debug.log; 修改为 /usr/local/nginx/example_${USER}/logs/example_api_nginx_debug.log;
-*  6 修改一下 api_base/nginx/example.conf 文件中接口路径, 在第74行 将路径 /usr/local/nginx/example/api/interface/example.lua; 修改为 /usr/local/nginx/example_${USER}/api/interface/example.lua;
-*  7 修改 api_base/api/initial目录下 init.lua 文件：将 HOME_DIR 由/usr/local/nginx/example/api 修改为 /usr/local/nginx/example_${USER}/api
-*  8 启动 nginx 实例：sudo /usr/local/nginx/sbin/nginx -c /usr/local/nginx/example_${USER}/nginx/example.conf
-*  9 使用 Postman 访问接口 http://${SERVICE_IP}:${PORT}/interface/example/${OP} OP可以为 add,update,query,delete
+*  1 登录开发服务器，使用主管分配给自己的用户名和密码,ssh ${USER}@101.37.253.12,输入密码.
+*  2 在自己的home目录下 git clone https://github.com/changyuezhou/api_base.git 按照安装指南运行命令.
+*  3 切换分支, git checkout feature/${USER},切换好之后，拉取最新代码: git pull 
+*  4 使用命令: sudo ln -s /home/${USER}/api_base /usr/local/nginx/example_${USER}
+*  5 修改 api_base/nginx/example.conf 文件中的端口号，在文件第50行，选择一个未使用的端口号，不然nginx实例启动会失败
+*  6 修改一下 api_base/nginx/example.conf 文件中初始化文件路径, 在第45行 将路径 /usr/local/nginx/example/api/initial/init.lua; 修改为 /usr/local/nginx/example_${USER}/api/initial/init.lua;
+*  7 修改一下 api_base/nginx/example.conf 文件中LOG路径, 在第69行 将路径 /usr/local/nginx/example/logs/example_api_nginx_debug.log; 修改为 /usr/local/nginx/example_${USER}/logs/example_api_nginx_debug.log;
+*  8 修改一下 api_base/nginx/example.conf 文件中接口路径, 在第74行 将路径 /usr/local/nginx/example/api/interface/example.lua; 修改为 /usr/local/nginx/example_${USER}/api/interface/example.lua;
+*  9 修改 api_base/api/initial目录下 init.lua 文件：将 HOME_DIR 由/usr/local/nginx/example/api 修改为 /usr/local/nginx/example_${USER}/api
+*  10 启动 nginx 实例：sudo /usr/local/nginx/sbin/nginx -c /usr/local/nginx/example_${USER}/nginx/example.conf
+*  11 使用 Postman 访问接口 http://${SERVICE_IP}:${PORT}/interface/example/${OP} OP可以为 add,update,query,delete
      请求方式为 POST 
-*  10 自己修改代码，尝试着看看修改后的效果,记住只修改 interface和business目录下的代码,interface目录下的代码处理api参数检查
+*  12 自己修改代码，尝试着看看修改后的效果,记住只修改 interface和business目录下的代码,interface目录下的代码处理api参数检查
      business目录下的代码处理数据库业务逻辑    
      
 ## 5. 开发流程 <a name="dev_progress"/>
@@ -77,6 +80,6 @@
 *  12 表删除记录: delete ${TABLE} where ${COLUMN}='${COLUMN}'; 删除记录千万记住加条件，不然全表删除，你就要请我们去中山路锦江大酒店吃烤鸭了
 *  13 dbc 启动命令: sudo /usr/local/dbc/bin/start.sh;dbc 停止命令: sudo /usr/local/dbc/bin/stop.sh
 
-## 8. 用户开通 <a name="user_create"/> 
-*  以上都学习结束后，向主管领导申请开通开发账号和密码，同时拿到开发服务器IP地址，开启新的工作之旅
-*  开发服务器地址: 101.37.253.12
+## 8. 需要完成的任务 <a name="do_action"/> 
+*  前提：以上内容都需要亲自动手做一遍
+*  完成 https://github.com/changyuezhou/api_base/blob/master/doc/example.md 学生管理接口，完成后需要用 git 提交代码，由主管review.
