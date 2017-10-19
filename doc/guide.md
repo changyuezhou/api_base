@@ -23,6 +23,8 @@
 *   API 调试工具  postman
 *   沟通工具  wechat （建议安装 PC 版本）
 *   LUA  运行环境
+*   git 客户端
+*   filezilla 客户端
    
 ## 3. 服务器环境 <a name="service_env"/>  
 *  操作系统     SUSE Linux
@@ -37,7 +39,7 @@
 *  变量使用 ${VAR} 这样的样式，需要替换成真实的目录或者值
 *  1 登录开发服务器，使用主管分配给自己的用户名和密码,ssh ${USER}@101.37.253.12,输入密码.
 *  2 在自己的home目录下 git clone https://github.com/changyuezhou/api_base.git 按照安装指南运行命令.
-*  3 切换分支, git checkout feature/${USER},切换好之后，拉取最新代码: git pull 
+*  3 切换分支,cd api_base 进入代码目录 git checkout feature/${USER},切换好之后，拉取最新代码: git pull ,回到上级目录 cd ..;
 *  4 使用命令: sudo ln -s /home/${USER}/api_base /usr/local/nginx/example_${USER}
 *  5 修改 api_base/nginx/example.conf 文件中的端口号，在文件第50行，选择一个未使用的端口号，不然nginx实例启动会失败
 *  6 修改一下 api_base/nginx/example.conf 文件中初始化文件路径, 在第45行 将路径 /usr/local/nginx/example/api/initial/init.lua; 修改为 /usr/local/nginx/example_${USER}/api/initial/init.lua;
@@ -48,7 +50,9 @@
 *  11 使用 Postman 访问接口 http://${SERVICE_IP}:${PORT}/interface/example/${OP} OP可以为 add,update,query,delete
      请求方式为 POST 
 *  12 自己修改代码，尝试着看看修改后的效果,记住只修改 interface和business目录下的代码,interface目录下的代码处理api参数检查
-     business目录下的代码处理数据库业务逻辑    
+     business目录下的代码处理数据库业务逻辑  
+*  13 本地修改代码后，使用 filezilla 客户端上传到服务器,然后重新加载 nginx 配置文件:    sudo /usr/local/nginx/sbin/nginx -c /usr/local/nginx/example_${USER}/nginx/example.conf -s reload
+*  14 使用 Postman 查看修改效果，回到 12 步骤，重复这个过程，直到代码修改完成    
      
 ## 5. 开发流程 <a name="dev_progress"/>
 *  1  了解API接口定义,主要看接口需要哪些参数传入，接口会返回哪些数据
