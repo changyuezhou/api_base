@@ -23,6 +23,8 @@
 *   API 调试工具  postman
 *   沟通工具  wechat （建议安装 PC 版本）
 *   LUA  运行环境
+*   git 客户端
+*   filezilla 客户端
    
 ## 3. 服务器环境 <a name="service_env"/>  
 *  操作系统     SUSE Linux
@@ -48,7 +50,9 @@
 *  11 使用 Postman 访问接口 http://${SERVICE_IP}:${PORT}/interface/example/${OP} OP可以为 add,update,query,delete
      请求方式为 POST 
 *  12 自己修改代码，尝试着看看修改后的效果,记住只修改 interface和business目录下的代码,interface目录下的代码处理api参数检查
-     business目录下的代码处理数据库业务逻辑    
+     business目录下的代码处理数据库业务逻辑  
+*  13 本地修改代码后，使用 filezilla 客户端上传到服务器,然后重新加载 nginx 配置文件:    sudo /usr/local/nginx/sbin/nginx -c /usr/local/nginx/example_${USER}/nginx/example.conf -s reload
+*  14 使用 Postman 查看修改效果，回到 12 步骤，重复这个过程，直到代码修改完成    
      
 ## 5. 开发流程 <a name="dev_progress"/>
 *  1  了解API接口定义,主要看接口需要哪些参数传入，接口会返回哪些数据
