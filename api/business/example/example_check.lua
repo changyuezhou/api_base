@@ -28,12 +28,19 @@ function business:name_is_exists(name)
     local sql = "select id from t_example where name='" .. name .. "'"
     local dao = require "dao"
     local configure = require "configure"
+    local LOG = require "log"
+    local cjson = require "cjson"
+    LOG:DEBUG("check sql:" .. sql)
     local result,info = dao:query_by_sql(configure.DBCService, sql)
     if false == result then
         return false, info
     end
-
-    if nil == info or nil == info.data or 0 >= #info.data then
+    if nil ~= info then
+        LOG:DEBUG("check response:" .. cjson.encode(info))
+    else
+        LOG:DEBUG("check response is nil")
+    end
+    if nil == info or nil == info.list or 0 >= #info.list then
         return false
     end
 
