@@ -376,10 +376,11 @@
 
 | 名称  | 类型 | 必填 | 描述 |
 | :--------| ----:| ----:| :--- |
-| name | string | 是 | 学生名称 |
-| age | int | 是 | 学生年龄 |
-| have_courses | array(string) | 是 | 已修课程 |
-| course_grade | array(object) | 是 | 学生课程成绩 |
+| id |  string  | 是 | id |
+| name | string | 否 | 学生名称 |
+| age | int | 否 | 学生年龄 |
+| have_courses | array(string) | 否 | 已修课程 |
+| course_grade | array(object) | 否 | 学生课程成绩 |
 
 * 课程成绩字段：
 
