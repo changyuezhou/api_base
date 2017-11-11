@@ -33,7 +33,7 @@ function business:add_timestamp(tbl)
     local uuid = require "uuid"
     local time_obj = require "socket"
     uuid.seed(time_obj.gettime()*10000)
-    tbl.id = "EX"..uuid()
+    tbl.id = "EX".. string.upper(uuid())
 end
 
 -- #########################################################################################################

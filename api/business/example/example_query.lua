@@ -25,7 +25,7 @@ local business = {}
 -- 无
 -- #########################################################################################################
 function business:results_string_to_number(info)
-    if nil == info or nil == info.data then
+    if nil == info or nil == info.list then
         return
     end
     local num = #info.list
